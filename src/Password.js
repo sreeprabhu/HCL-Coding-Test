@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import './App.css';
-import { Grid, Box, TextField, Button } from '@material-ui/core';
+import { Grid, TextField, Button } from '@material-ui/core';
 import { Alert } from '@material-ui/lab';
 import { validatePassword } from './passwordHelper';
 
@@ -10,6 +10,7 @@ const Password = () => {
   const [passwords, setPassword] = useState(defaultPasswords);
   const [passwordVerified, setPasswordVerified] = useState(false);
   const [passwordMatch, setPasswordMatch] = useState(true);
+  const [submitClicked, setSubmitClicked] = useState(false);
 
   /**
    * Passwod change handler method
@@ -47,6 +48,7 @@ const Password = () => {
       setPasswordMatch(false);
       setPasswordVerified(false);
     }
+    setSubmitClicked(true);
   }
 
   /**
@@ -108,6 +110,8 @@ const Password = () => {
   const renderAlerts = () => {
     if (passwordVerified) {
       return <Alert severity="success" className="success-alert">Successfully Submitted!</Alert>;
+    } else if (submitClicked && (!passwordMatch || !passwordVerified)) {
+      return <Alert severity="error" className="success-alert">Submission Failed!</Alert>;
     }
     return null;
   }
