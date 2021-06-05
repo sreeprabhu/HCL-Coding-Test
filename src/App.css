@@ -36,3 +36,43 @@
     transform: rotate(360deg);
   }
 }
+
+.main-container {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.header-container {
+  background-color: #dfdfef;
+  padding: 1rem;
+}
+
+.password-container {
+  padding: 1rem;
+  margin: 2rem 0 2rem 0;
+  min-height: 6rem;
+}
+
+.password-label {
+  padding: 8px;
+}
+
+.password-input {
+  padding: 5px;
+}
+
+.password-error {
+  color: red;
+  font-size: 12px;
+}
+
+.password-error.match-error {
+  font-weight: bold;
+  padding: 0 5px;
+}
+
+.button-container {
+  padding: 1rem;
+}
+.error-container {
+  padding-left: 1rem;
+}
