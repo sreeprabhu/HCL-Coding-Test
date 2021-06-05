@@ -38,7 +38,7 @@ export const validatePassword = item => {
     validatedItem = {...validatedItem, special: true};
   }
   // Validate length
-  if (item.value.length < 8) {
+  if (item.value.length < 6) {
     validatedItem = {...validatedItem, length: false};
   } else {
     validatedItem = {...validatedItem, length: true};

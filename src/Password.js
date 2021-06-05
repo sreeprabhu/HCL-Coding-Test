@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import './App.css';
 import { Grid, Box, TextField, Button } from '@material-ui/core';
+import { Alert } from '@material-ui/lab';
 import { validatePassword } from './passwordHelper';
 
 const Password = () => {
@@ -16,25 +17,35 @@ const Password = () => {
    * @param {password key} key 
    */
   const handlePasswordChange = (e, key) => {
-    console.log('handlePasswordChange', e, key);
     setPassword({ ...passwords, [key]: { ...passwords[key], value: e.target.value } });
   }
 
   /**
    * Verify password button handler method
    */
-  const handleVerification = () => {
+  const handleSubmit = () => {
     let verifiedPasswords = { ...passwords };
+    let isVerified = true;
     if (verifiedPasswords.firstPassword.value === verifiedPasswords.secondPassword.value) {
       Object.keys(passwords).forEach(key => {
         verifiedPasswords[key] = validatePassword({ ...passwords[key] });
+
+        /** Verifies if all the conditioons are met */
+        if (Object.values(verifiedPasswords[key]).some(item => !item)) {
+          isVerified = false;
+        }
       });
       setPassword(verifiedPasswords);
-      setPasswordVerified(true);
       setPasswordMatch(true);
+
+      if (isVerified) {
+        setPasswordVerified(true);
+      } else {
+        setPasswordVerified(false);
+      }
     } else {
-      setPasswordVerified(false);
       setPasswordMatch(false);
+      setPasswordVerified(false);
     }
   }
 
@@ -84,7 +95,7 @@ const Password = () => {
     return (
       <Grid container xs={6} flex-direction="row" justify="center" alignItems="center" className="error-container">
         {
-          passwordVerified && Object.keys(item).map(key => {
+          passwordMatch && Object.keys(item).map(key => {
             if (key !== 'value') {
               return <Grid item xs={12} className="password-error">{renderErrorMessages(item, key)}</Grid>;
             }
@@ -92,6 +103,13 @@ const Password = () => {
         }
       </Grid>
     )
+  }
+
+  const renderAlerts = () => {
+    if (passwordVerified) {
+      return <Alert severity="success" className="success-alert">Successfully Submitted!</Alert>;
+    }
+    return null;
   }
 
   return (
@@ -116,9 +134,12 @@ const Password = () => {
         <Grid item xs={3} className="password-error match-error">{!passwordMatch ? 'Passwords should match!' : ''}</Grid>
       </Grid>
       <Grid container flex-direction="row" justify="center" alignItems="center" className="button-container" xs={12}>
-        <Grid item xs={4} className="password-label">
-          <Button className="verify-button" variant="contained" color="primary" onClick={() => handleVerification()}>Verify Passwords</Button>
+        <Grid item xs={2} className="password-label">
+          <Button className="verify-button" variant="contained" color="primary" onClick={() => handleSubmit()}>Submit</Button>
         </Grid>
+      </Grid>
+      <Grid container flex-direction="row" justify="center" alignItems="center" xs={12}>
+        <Grid item xs={4}>{renderAlerts()}</Grid>
       </Grid>
     </Grid>
   );

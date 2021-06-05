@@ -73,6 +73,11 @@
 .button-container {
   padding: 1rem;
 }
+
 .error-container {
   padding-left: 1rem;
+}
+
+.success-alert {
+  margin-bottom: 10px;
 }
